@@ -2,7 +2,6 @@ import os
 import array
 import socket
 import struct
-import binascii
 
 # IP/TCP checksum calculator
 def chksum(packet: bytes) -> int:
