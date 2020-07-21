@@ -165,7 +165,7 @@ class TCPPacket:
 if __name__ == '__main__':
     real_dst = os.environ['NODE_IP']
     dst = '127.0.0.1' # localhost IP
-    dst_port = 8080 # kubelet port
+    dst_port = 8080 # unauthenticated kube apiserver
     src = os.environ['POD_IP']
     src_port = 25565 # i like minecraft
 
