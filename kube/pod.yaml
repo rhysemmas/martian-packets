@@ -7,7 +7,7 @@ metadata:
   name: martian-packets
 spec:
   containers:
-  - image: rhysemmas/martian-packets:2.0
+  - image: rhysemmas/martian-packets:1.1
     imagePullPolicy: Always
     name: attacker
     resources:
