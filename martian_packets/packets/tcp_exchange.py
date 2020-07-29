@@ -129,6 +129,6 @@ def send_tcp_data(real_dst, dst, dst_port, src, src_port, data):
         checksum
     )
 
-    sequence, response_sequence = send.tcp_handshake()
-    response = send.tcp_push_data(sequence, response_sequence)
+    sequence, ack = send.tcp_handshake()
+    response = send.tcp_push_data(sequence, ack)
     return response
