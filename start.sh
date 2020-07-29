@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# install some bits and check network conntectivity
+# Install cURL and check network conntectivity
 echo "=== Testing network"
 apk add curl
 curl http://google.com
@@ -10,9 +10,9 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
-# start the process
+# Start the exploit
 echo "=== Starting exploit"
-python3 /main.py
+python3 /martian_packets/main.py
 status=$?
 if [ $status -ne 0 ]; then
   echo "Error exiting with: $status"
