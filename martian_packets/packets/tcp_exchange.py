@@ -5,17 +5,17 @@ from packets.tcp_craft import build_tcp_packet
 class PacketExchanger:
     def __init__(self,
                  real_dst: str,
-                 src_host: str,
-                 src_port: int,
                  dst_host: str,
                  dst_port: int,
+                 src_host: str,
+                 src_port: int,
                  data:     bytes,
                  checksum: int):
         self.real_dst = real_dst
-        self.src_host = src_host
-        self.src_port = src_port
         self.dst_host = dst_host
         self.dst_port = dst_port
+        self.src_host = src_host
+        self.src_port = src_port
         self.data     = data
         self.checksum = checksum
 
@@ -24,7 +24,9 @@ class PacketExchanger:
         sequence = 0
         flags = ("syn")
 
-        packet = build_tcp_packet(self.dst_host, self.dst_port, self.src_host, self.src_port, sequence, ack, flags, self.checksum, self.data)
+        empty_data = b""
+
+        packet = build_tcp_packet(self.dst_host, self.dst_port, self.src_host, self.src_port, sequence, ack, flags, self.checksum, empty_data)
         self.send_packet(packet)
         response_sequence, _ = self.receive_response()
 
@@ -32,7 +34,7 @@ class PacketExchanger:
         sequence += 1
         flags = ("ack")
 
-        packet = build_tcp_packet(self.dst_host, self.dst_port, self.src_host, self.src_port, sequence, ack, flags, self.checksum, self.data)
+        packet = build_tcp_packet(self.dst_host, self.dst_port, self.src_host, self.src_port, sequence, ack, flags, self.checksum, empty_data)
         self.send_packet(packet)
         response_sequence, _ = self.receive_response()
         return sequence, response_sequence
