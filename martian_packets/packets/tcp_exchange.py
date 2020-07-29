@@ -23,9 +23,7 @@ class PacketExchanger:
         ack = 0
         sequence = 0
         flags = ("syn")
-
         empty_data = b""
-
         packet = build_tcp_packet(self.dst_host, self.dst_port, self.src_host, self.src_port, sequence, ack, flags, self.checksum, empty_data)
         self.send_packet(packet)
         response_sequence, _ = self.receive_response()
@@ -33,10 +31,8 @@ class PacketExchanger:
         ack = response_sequence + 1
         sequence += 1
         flags = ("ack")
-
         packet = build_tcp_packet(self.dst_host, self.dst_port, self.src_host, self.src_port, sequence, ack, flags, self.checksum, empty_data)
         self.send_packet(packet)
-        response_sequence, _ = self.receive_response()
         return sequence, response_sequence
 
     def tcp_push_data(self, sequence, ack):
