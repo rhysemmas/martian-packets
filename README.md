@@ -12,7 +12,7 @@ https://gist.github.com/NickKaramoff/b06520e3cb458ac7264cab1c51fa33d6
 
 ## Kube
 
-There is a Dockerfile and pod manifest for deploying the exploit to kubernetes for easily proving whether a cluster is vulnerable. The script has been updated to target the unauthenticated kube api server on port 8080 which runs on master nodes (the manifest will deploy the pod to a master node).
+There is a Dockerfile and pod manifest for deploying the exploit to kubernetes for easily proving whether a cluster is vulnerable. The script has been updated to target the unauthenticated kube api server on port 8080 which runs on master nodes (the manifest will deploy the pod to a master node). If this is not accessible in your cluster, you'll need to make some minor changes to the script to edit the payload and target port in order to target the kubelet (or other localhost service). You can use an older version of [main.py](https://github.com/rhysemmas/martian-packets/blob/ed48e1c90e006c0d533de7c8a430ff466381de42/main.py) as a jumping off point.  
 
 The exploit will use the kube apiserver's REST API to create a pod in your cluster's default namespace with the name: `youve-been-pwned`. This pod just echos out text in an infinite loop and will need deleting manually.  
 
