@@ -62,7 +62,7 @@ class PacketConstructor:
         if self.validate_checksum(self.checksum) == True:
             checksum = self.checksum
         else:
-            checksum = self.calculate_checksum(pseudo_header + tcp_header + len(self.data))
+            checksum = self.calculate_checksum(pseudo_header + tcp_header + self.data)
 
         tcp_header = tcp_header[:16] + struct.pack('H', checksum) + tcp_header[18:]
         return tcp_header
